@@ -31,11 +31,11 @@ public:
 		pl = position % 8;
 		char aux = ~array[pa];
 		aux = aux | ~(1<<pl);
-		array = aux & array;
+		array[pa] = aux & array[pa];
 	}
              
 	bool operator[](int position) {
-		if( position > size) return;
+		if( position > size) return false;
 		int pa,pl;
 		pa = position / 8;
 		pl = position % 8;
@@ -49,7 +49,7 @@ public:
 			array[i] &= 0;
 	}
              
-	~boolean() {
+	~Boolean() {
 		delete[] array;
 	}
 };
