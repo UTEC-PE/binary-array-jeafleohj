@@ -1,35 +1,57 @@
 #ifndef BOOLEAN_H
 #define BOOLEAN_H
+#include <cmath>
 
-class boolean {
-    private:
-        char* array;
-        int size;
+class Boolean {
+	char* array;
+	int size;
     
-    public:
-        boolean(int size) {
-            // TODO
-        }
+public:
+	Boolean(int size)
+		: size(size)
+	{
+		int s = int(ceil(size/8.));
+		array = new char[s];
+	}
         
-        void bitOn(int position) {
-            // TODO
-        }
+	void bitOn(int position) {
+		if( position > size) return;
+		int pa,pl;
+		pa = position / 8;
+		pl = position % 8;
+		char aux = 1;
+		aux = aux << pl;
+		array[pa] = aux | array[pa];
+	}
              
-        void bitOff(int position) {
-            // TODO
-        }
+	void bitOff(int position) {
+		if( position > size) return;
+		int pa,pl;
+		pa = position / 8;
+		pl = position % 8;
+		char aux = ~array[pa];
+		aux = aux | ~(1<<pl);
+		array = aux & array;
+	}
              
-        bool operator[](int position) {
-            // TODO
-        }
+	bool operator[](int position) {
+		if( position > size) return;
+		int pa,pl;
+		pa = position / 8;
+		pl = position % 8;
+		char aux = array[pa];
+		aux = aux & (1<<pl);
+		return 1 == aux>>pl;
+	}
     
-        void clear() {    
-            // TODO
-        }
+	void clear() { 
+		for(int i = 0; i<size; i++)
+			array[i] &= 0;
+	}
              
-        ~boolean() {
-            // TODO
-        }
+	~boolean() {
+		delete[] array;
+	}
 };
 
 #endif
